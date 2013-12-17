@@ -92,6 +92,7 @@ ${COMPILER}:
 objects = ${COMPILER}/$(target).o
 objects += ${COMPILER}/ili9341.o
 objects += ${COMPILER}/delay.o
+#objects += ${COMPILER}/i10n.c
 objects += ${COMPILER}/startup_${COMPILER}.o
 ${COMPILER}/${target}.axf: ${objects}
 ${COMPILER}/${target}.axf: ${ROOT}/driverlib/${COMPILER}/libdriver.a
@@ -100,6 +101,11 @@ ${COMPILER}/${target}.axf: ${target}.ld
 SCATTERgcc_${target}=${target}.ld
 ENTRY_${target}=ResetISR
 CFLAGSgcc=-DTARGET_IS_BLIZZARD_RA3
+
+# L10N
+i10n.c: language.csv
+	 ${ROOT}/tools/bin/mkstringtable -u -f language.csv -b i10n.c -s utf8 -t
+
 
 #
 # Include the automatically generated dependency files.
